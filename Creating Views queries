@@ -1,0 +1,76 @@
+SQL-Task7- Creating Views
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    City VARCHAR(50)
+);
+
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    OrderDate DATE,
+    CustomerID INT,
+    Amount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+
+INSERT INTO Customers VALUES
+(1, 'Alice', 'New York'),
+(2, 'Bob', 'Los Angeles'),
+(3, 'Charlie', 'Chicago'),
+(4, 'Diana', 'Houston');
+
+
+INSERT INTO Orders VALUES
+(101, '2024-05-01', 1, 250.00),
+(102, '2024-05-03', 1, 300.00),
+(103, '2024-05-04', 2, 150.00),
+(104, '2024-05-06', NULL, 100.00);
+
+CREATE VIEW CustomerOrders AS
+SELECT 
+    o.OrderID,
+    o.OrderDate,
+    o.Amount,
+    c.CustomerName,
+    c.City
+FROM Orders o
+LEFT JOIN Customers c ON o.CustomerID = c.CustomerID;
+
+
+CREATE VIEW HighValueOrders AS
+SELECT 
+    OrderID,
+    OrderDate,
+    CustomerID,
+    Amount
+FROM Orders
+WHERE Amount > 200;
+
+
+CREATE VIEW ValidCustomerOrders AS
+SELECT * FROM Orders
+WHERE CustomerID IS NOT NULL
+WITH CHECK OPTION;
+
+
+CREATE VIEW TotalOrdersPerCustomer AS
+SELECT 
+    c.CustomerID,
+    c.CustomerName,
+    COUNT(o.OrderID) AS TotalOrders,
+    SUM(o.Amount) AS TotalAmount
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerID, c.CustomerName;
+
+
+SELECT * FROM CustomerOrders;
+SELECT * FROM HighValueOrders;
+SELECT * FROM ValidCustomerOrders;
+SELECT * FROM TotalOrdersPerCustomer;
+
+
+
