@@ -21,7 +21,7 @@ To learn and apply SQL views for abstraction, reuse, and better query management
 4. **TotalOrdersPerCustomer**  
    Aggregates total orders and order value per customer.
 
-## 📌 Key Concepts Applied:
+##  Key Concepts Applied:
 - `CREATE VIEW`
 - `WITH CHECK OPTION`
 - Aggregation with `GROUP BY`
